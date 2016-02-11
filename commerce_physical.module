@@ -184,7 +184,7 @@ function commerce_physical_order_weight($order, $unit = 'lb') {
   // Loop over each line item on the order.
   foreach ($order_wrapper->commerce_line_items as $delta => $line_item_wrapper) {
     // Get the weight value of product line items.
-    if (in_array($line_item_wrapper->type->value(), commerce_product_line_item_types())) {
+    if ($line_item_wrapper->value() && in_array($line_item_wrapper->type->value(), commerce_product_line_item_types())) {
       $line_item_weight = commerce_physical_product_line_item_weight($line_item_wrapper->value());
 
       // Add it to the running total converting it to the required weight unit.
@@ -201,6 +201,7 @@ function commerce_physical_order_weight($order, $unit = 'lb') {
     }
   }
 
+  // dpm($order);
   // Allow other modules to alter the weight if necessary.
   drupal_alter('commerce_physical_order_weight', $weight, $order, $unit);
 
@@ -228,7 +229,7 @@ function commerce_physical_order_volume($order, $unit = 'in') {
   // Loop over each line item on the order.
   foreach ($order_wrapper->commerce_line_items as $delta => $line_item_wrapper) {
     // Get the dimensions value of product line items.
-    if (in_array($line_item_wrapper->type->value(), commerce_product_line_item_types())) {
+    if ($line_item_wrapper->value() && in_array($line_item_wrapper->type->value(), commerce_product_line_item_types())) {
       $line_item_dimensions = commerce_physical_product_line_item_dimensions($line_item_wrapper->value());
 
       // Add it to the running total converting it to the required weight unit.
